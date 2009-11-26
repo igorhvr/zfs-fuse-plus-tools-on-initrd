@@ -1,7 +1,9 @@
 Sat Jul 18 2009
 Maximilian Mehnert <maximilian.mehnert@gmx.de>
-These scripts are maintained at
+These project is maintained at
 http://github.com/mmehnert/zfs-fuse-on-initrd
+If you get this file without the rest of the package, please fetch the
+scripts from there.
 
 This is about creating an initrd.gz to have your root partition on zfs-fuse.
 
