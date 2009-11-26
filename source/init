@@ -1,0 +1,35 @@
+#!/bin/sh
+export TERM=linux
+mount proc /proc -t proc -n
+mount sysfs /sys -t sysfs -n
+
+mount /dev/root / -o remount,rw
+
+mount tmpfs /mnt -t tmpfs
+cp -a /etc/zfs/* /mnt
+mount --move /mnt /etc/zfs 
+
+mount tmpfs /mnt -t tmpfs
+cp -a /dev/* /mnt
+mount --move /mnt /dev
+
+
+
+#vgscan -v
+#vgchange -a y
+
+
+
+/bin/sh
+
+. /mount-stuff
+
+
+#using /etc/zfs/mounts as destination for zpool import.
+#not the best destination but ok for me for the time 
+#being.
+
+
+cd /initroot
+exec /sbin/chroot . /sbin/init <dev/console >dev/console  2>&1
+

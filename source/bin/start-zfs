@@ -1,0 +1,10 @@
+#!/bin/sh
+
+ulimit -v unlimited
+ulimit -c unlimited
+ulimit -l unlimited
+ulimit -s unlimited
+
+zfs-fuse -m 200 -e 90 -a 90 --zfs-prefetch-disable
+
+

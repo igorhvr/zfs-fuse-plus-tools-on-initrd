@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+
+for ($i=0; $i<20; $i++){
+   for($j=0; $j<7; $j++){
+       $command="mknod sd".chr($i+97);
+       if($j!=0){$command.=$j;}
+       $command.=" b 8 ".($i*16+$j);    
+       system($command);
+   }
+}

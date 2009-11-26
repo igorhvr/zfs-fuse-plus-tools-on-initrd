@@ -1,0 +1,4 @@
+proc /proc proc rw 0 0
+sysfs /sys sysfs rw 0 0
+tmpfs /etc/zfs tmpfs rw 0 0
+tmpfs /dev tmpfs rw 0 0

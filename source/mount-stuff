@@ -1,0 +1,42 @@
+/bin/mount --make-rshared /etc/zfs
+/bin/mount --bind /etc/zfs /initroot/etc/zfs
+
+#/bin/mount --make-rshared /var/lock/zfs
+#/bin/mount --bind /var/lock/zfs /initroot/var/lock/zfs
+
+/bin/mount --make-rshared /dev
+/bin/mount --bind /dev /initroot/dev-initrd
+
+/bin/mount --make-rshared /sys
+/bin/mount --bind /sys /initroot/sys
+
+/bin/mount --make-rshared /proc
+/bin/mount --bind /proc /initroot/proc
+
+/bin/mount tmpfs /mounts -t tmpfs
+mkdir /mounts/zfs
+/bin/mount --make-rshared /mounts
+/bin/mount  /mounts/zfs /initroot/mounts/zfs --bind
+
+ZFSPID=`ps -e|grep zfs-fuse|head -n 1|awk '{print $1}'`
+echo $ZFSPID >/initroot/var/run/sendsigs.omit
+echo -17 >/proc/$ZFSPID/oom_adj
+
+rm /initroot/etc/mtab
+cat /proc/mounts >/initroot/etc/mtab
+rm /etc/mtab
+ln -s /initroot/etc/mtab /etc/
+
+rm -r /initroot/var/run/zfs
+cp -a /var/run/zfs /initroot/var/run/
+rm -r /initroot/var/lock/zfs
+cp -a /var/lock/zfs /initroot/var/lock/
+
+#rm etc/group
+#ln -s /initroot/etc/group /etc/
+#rm etc/passwd
+#ln -s /initroot/etc/passwd /etc/
+cp -a /initroot/etc/passwd /etc
+cp -a /initroot/etc/group /etc
+
+

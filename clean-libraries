@@ -1,0 +1,3 @@
+#!/bin/sh
+rm -rv source/lib/*
+rm -rv source/usr/lib/*
