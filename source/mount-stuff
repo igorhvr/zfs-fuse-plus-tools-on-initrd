@@ -1,11 +1,22 @@
-/bin/mount --make-rshared /etc/zfs
-/bin/mount --bind /etc/zfs /initroot/etc/zfs
+#!/bin/sh
+#/bin/mount --make-rshared /etc/zfs
+#/bin/mount --bind /etc/zfs /initroot/etc/zfs
 
-#/bin/mount --make-rshared /var/lock/zfs
-#/bin/mount --bind /var/lock/zfs /initroot/var/lock/zfs
+
+
+for TARGET in /var/lock /var/run; do 
+  /bin/mount --make-rshared $TARGET
+  #mkdir -p /initroot/$TARGET 2>/dev/null
+  /bin/mount --bind $TARGET /initroot$TARGET
+  touch $TARGET/.ramfs
+done
+
 
 /bin/mount --make-rshared /dev
 /bin/mount --bind /dev /initroot/dev-initrd
+
+/bin/mount --make-rshared /zfs-kstat
+/bin/mount --bind /zfs-kstat /initroot/zfs-kstat
 
 /bin/mount --make-rshared /sys
 /bin/mount --bind /sys /initroot/sys
@@ -14,7 +25,8 @@
 /bin/mount --bind /proc /initroot/proc
 
 /bin/mount tmpfs /mounts -t tmpfs
-mkdir /mounts/zfs
+mkdir /mounts/zfs 2>/dev/null
+mkdir -p /initroot/mounts/zfs 2>/dev/null
 /bin/mount --make-rshared /mounts
 /bin/mount  /mounts/zfs /initroot/mounts/zfs --bind
 
@@ -22,21 +34,21 @@ ZFSPID=`ps -e|grep zfs-fuse|head -n 1|awk '{print $1}'`
 echo $ZFSPID >/initroot/var/run/sendsigs.omit
 echo -17 >/proc/$ZFSPID/oom_adj
 
-rm /initroot/etc/mtab
+#coredumps
+#mkdir -p /var/tmp/coredump 2>/dev/null
+#/bin/mount -t ext4 /dev/sda4 /var/tmp/coredump
+#mkdir -p /initroot/var/tmp/coredump 2>/dev/null
+#/bin/mount --make-rshared /var/tmp/coredump
+#/bin/mount  /var/tmp/coredump /initroot/var/tmp/coredump --bind
+echo "0" > /proc/sys/kernel/core_uses_pid 
+echo "/var/tmp/coredump/%e-%p.core" > /proc/sys/kernel/core_pattern
+mount --bind /initroot/var/tmp/coredump /var/tmp/coredump
+
+
+#rm /initroot/etc/mtab
 cat /proc/mounts >/initroot/etc/mtab
 rm /etc/mtab
 ln -s /initroot/etc/mtab /etc/
 
-rm -r /initroot/var/run/zfs
-cp -a /var/run/zfs /initroot/var/run/
-rm -r /initroot/var/lock/zfs
-cp -a /var/lock/zfs /initroot/var/lock/
-
-#rm etc/group
-#ln -s /initroot/etc/group /etc/
-#rm etc/passwd
-#ln -s /initroot/etc/passwd /etc/
-cp -a /initroot/etc/passwd /etc
-cp -a /initroot/etc/group /etc
 
 

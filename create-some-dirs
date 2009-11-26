@@ -8,4 +8,5 @@ sys \
 tmp \
 lib \
 usr/lib \
-
+var/tmp/coredump \
+usr/local/bin

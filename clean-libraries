@@ -1,3 +1,8 @@
 #!/bin/sh
 rm -rv source/lib/*
 rm -rv source/usr/lib/*
+rm -rv source/usr/local/64/*
+rm -rv source/usr/local/lib/*
+rm -rv source/lib64/*
+rm -rv source/usr/lib64
+

@@ -2,12 +2,15 @@
 export TERM=linux
 mount proc /proc -t proc -n
 mount sysfs /sys -t sysfs -n
+echo "0" > /proc/sys/kernel/core_uses_pid 
+echo "/var/tmp/coredump/%e-%p.core" > /proc/sys/kernel/core_pattern
+
 
 mount /dev/root / -o remount,rw
 
-mount tmpfs /mnt -t tmpfs
-cp -a /etc/zfs/* /mnt
-mount --move /mnt /etc/zfs 
+#mount tmpfs /mnt -t tmpfs
+#cp -a /etc/zfs/* /mnt
+#mount --move /mnt /etc/zfs 
 
 mount tmpfs /mnt -t tmpfs
 cp -a /dev/* /mnt
@@ -18,18 +21,29 @@ mount --move /mnt /dev
 #vgscan -v
 #vgchange -a y
 
+TARGET=/var/lock
+/bin/mount tmpfs $TARGET -t tmpfs -omode=1777,nodev,noexec,nosuid
+mkdir -p $TARGET/zfs
+
+TARGET=/var/run
+/bin/mount tmpfs $TARGET -t tmpfs -omode=0755,nosuid
+mkdir -p $TARGET/zfs
 
 
 /bin/sh
 
 . /mount-stuff
-
+sleep 10
 
 #using /etc/zfs/mounts as destination for zpool import.
 #not the best destination but ok for me for the time 
 #being.
 
+#umount /proc
+#umount /sys
 
 cd /initroot
-exec /sbin/chroot . /sbin/init <dev/console >dev/console  2>&1
+#exec /sbin/chroot . /sbin/init <dev/console >dev/console  2>&1
+#pivot_root . initrd
+exec chroot . /sbin/init <dev/console >dev/console  2>&1
 

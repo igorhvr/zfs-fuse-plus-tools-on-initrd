@@ -1,6 +1,6 @@
-Sat Jul 18 2009
+Sat Nov 26 2009
 Maximilian Mehnert <maximilian.mehnert@gmx.de>
-These project is maintained at
+This project is maintained at
 http://github.com/mmehnert/zfs-fuse-on-initrd
 If you get this file without the rest of the package, please fetch the
 scripts from there.

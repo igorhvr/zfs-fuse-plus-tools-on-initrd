@@ -1,0 +1,10 @@
+#!/bin/sh
+
+SOURCE=/etc/default/rcS
+cat $SOURCE|grep RAMLOCK=yes 2>&1 >/dev/null && cat $SOURCE|grep RAMRUN=yes 2>&1 >/dev/null
+if [ $? -ne 0 ]; then 
+	cat <<EOF
+Make sure that you have RAMLOCK=yes and RAMRUN=yes in $SOURCE!
+EOF
+fi
+
