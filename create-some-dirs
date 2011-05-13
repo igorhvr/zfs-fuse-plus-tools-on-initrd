@@ -9,4 +9,8 @@ tmp \
 lib \
 usr/lib \
 var/tmp/coredump \
-usr/local/bin
+usr/local/bin \
+var/run \
+dev/mapper
+
+

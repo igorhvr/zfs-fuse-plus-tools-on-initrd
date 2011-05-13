@@ -2,8 +2,8 @@
 export TERM=linux
 mount proc /proc -t proc -n
 mount sysfs /sys -t sysfs -n
-echo "0" > /proc/sys/kernel/core_uses_pid 
-echo "/var/tmp/coredump/%e-%p.core" > /proc/sys/kernel/core_pattern
+#echo "0" > /proc/sys/kernel/core_uses_pid 
+#echo "%e-%p.coredump" > /proc/sys/kernel/core_pattern
 
 
 mount /dev/root / -o remount,rw
@@ -22,10 +22,12 @@ mount --move /mnt /dev
 #vgchange -a y
 
 TARGET=/var/lock
+mkdir -p $TARGET
 /bin/mount tmpfs $TARGET -t tmpfs -omode=1777,nodev,noexec,nosuid
 mkdir -p $TARGET/zfs
 
 TARGET=/var/run
+mkdir -p $TARGET
 /bin/mount tmpfs $TARGET -t tmpfs -omode=0755,nosuid
 mkdir -p $TARGET/zfs
 

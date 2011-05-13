@@ -1,0 +1,14 @@
+#!/bin/sh
+
+DEST=`dirname $0`
+DEST=`realpath $DEST`
+cd /dev
+for dev in console fuse loop* mapper null random stderr \
+stdin stdout sg0 sr0  tty* random urandom; do
+cp -auv $dev $DEST
+done
+
+
+cd $DEST
+./create-sds
+
