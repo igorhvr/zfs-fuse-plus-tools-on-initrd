@@ -6,6 +6,7 @@ all:
 	./collect-libs.py
 	chroot source ldconfig
 	source/dev/collect-minimum-dev-files
+	./other-files
 
 initrd.gz: 
 	./check_debian

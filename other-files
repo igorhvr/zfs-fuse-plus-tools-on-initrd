@@ -1,0 +1,9 @@
+#!/bin/sh
+
+TERMINFO=/lib/terminfo/l
+
+if [ ! -d source$TERMINFO ]; then
+    mkdir -p source$TERMINFO;
+fi
+cp -uv $TERMINFO/linux source$TERMINFO
+
