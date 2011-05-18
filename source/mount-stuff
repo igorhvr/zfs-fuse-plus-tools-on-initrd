@@ -38,7 +38,7 @@ COREDEST=/var/tmp/coredump
 
 echo "0" > /proc/sys/kernel/core_uses_pid 
 echo "$COREDEST/%e-u%u-g%g-s%s-p%p.coredump" > /proc/sys/kernel/core_pattern
-mount --bind  /initroot$COREDEST $COREDEST 
+mount --bind  $COREDEST /initroot$COREDEST 
 chmod 777 /initroot$COREDEST
 
 
