@@ -1,9 +1,12 @@
 #!/bin/sh
 
-TERMINFO=/lib/terminfo/l
+DEBIAN_TERMINFO=/lib/terminfo/l
+GENTOO_TERMINFO=/etc/terminfo/l
 
-if [ ! -d source$TERMINFO ]; then
-    mkdir -p source$TERMINFO;
+DEST_TERMINFO=/lib/terminfo/l
+
+if [ ! -d source$DEST_TERMINFO ]; then
+    mkdir -p source$DEST_TERMINFO;
 fi
-cp -uv $TERMINFO/linux source$TERMINFO
+cp -uv $DEBIAN_TERMINFO/linux source$DEST_TERMINFO > /dev/null 2>&1 || cp -uv $GENTOO_TERMINFO/linux source$DEST_TERMINFO > /dev/null 2>&1 || echo Error Creating Terminfo
 
