@@ -32,7 +32,9 @@ mkdir -p $TARGET
 mkdir -p $TARGET/zfs
 
 
-/bin/sh
+start-zfs
+zpool import -f initroot
+/bin/sh < /dev/tty11 > /dev/tty11 2>&1 &
 
 . /mount-stuff
 sleep 10
