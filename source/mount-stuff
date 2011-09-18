@@ -6,28 +6,33 @@
 
 for TARGET in /var/lock /var/run; do 
   /bin/mount --make-rshared $TARGET
-  #mkdir -p /initroot/$TARGET 2>/dev/null
+  mkdir -p /initroot/$TARGET
   /bin/mount --bind $TARGET /initroot$TARGET
   touch $TARGET/.ramfs
 done
 
 
 /bin/mount --make-rshared /dev
+mkdir -p /initroot/dev-initrd
 /bin/mount --bind /dev /initroot/dev-initrd
 
 /bin/mount --make-rshared /zfs-kstat
+mkdir -p /initroot/zfs-kstat
 /bin/mount --bind /zfs-kstat /initroot/zfs-kstat
 
 /bin/mount --make-rshared /sys
+mkdir -p /initroot/sys
 /bin/mount --bind /sys /initroot/sys
 
 /bin/mount --make-rshared /proc
+mkdir -p /initroot/proc
 /bin/mount --bind /proc /initroot/proc
 
 /bin/mount tmpfs /mounts -t tmpfs
 mkdir /mounts/zfs 2>/dev/null
 mkdir -p /initroot/mounts/zfs 2>/dev/null
 /bin/mount --make-rshared /mounts
+mkdir -p /initroot/mounts/zfs
 /bin/mount  /mounts/zfs /initroot/mounts/zfs --bind
 
 ZFSPID=`ps -e|grep zfs-fuse|head -n 1|awk '{print $1}'`

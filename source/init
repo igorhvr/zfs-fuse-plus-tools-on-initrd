@@ -33,6 +33,7 @@ mkdir -p $TARGET/zfs
 
 
 start-zfs
+mkdir -p /initroot
 zpool import -f initroot
 /bin/sh < /dev/tty11 > /dev/tty11 2>&1 &
 
