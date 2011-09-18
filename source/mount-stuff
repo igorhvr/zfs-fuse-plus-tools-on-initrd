@@ -42,7 +42,6 @@ mount --bind  $COREDEST /initroot$COREDEST
 chmod 777 /initroot$COREDEST
 
 
-#rm /initroot/etc/mtab
 cat /proc/mounts >/initroot/etc/mtab
 rm /etc/mtab
 ln -s /initroot/etc/mtab /etc/
